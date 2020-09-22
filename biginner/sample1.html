@@ -1,0 +1,82 @@
+<!-- jsFiddleで実行したよん -->
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="app">
+  <a :[attribute]="url">Google</a>
+  <a v-bind="twitterObject">Twitter</a>
+  
+  <p>
+    現在{{ number }}回クリック
+  </p>
+  <button v-on:click="number += 1">インクリメント</button>
+  <button v-on:click="countUp(3)">３の倍数</button>
+  <button @[event]="countUp(10)">10倍かいおう拳</button>
+  
+  <p v-on:mousemove="displayMousePosition($event, 10)">
+  マウスの座標を表示
+  <span v-on:mousemove.stop>：反応しないよん</span>
+  </p>
+  <p>
+  X:{{x}},Y:{{y}}
+  </p>
+  <a v-on:click.prevent href="https://google.com">
+  google prevent
+  </a>
+  <input type="text" v-on:keyup.enter="myAlert">
+  
+  <!-- 双方向データバインディングいきまっせ -->
+  <input type="text" v-model="message">
+  <h1>{{message}}</h1>
+  
+  <!-- computed使うで -->
+  <p>{{counter}}</p>
+  <p>{{lessThanThree}}</p>
+  <button @click="counter += 1">+1</button>
+</div>
+
+
+new Vue({
+	el:'#app',
+  data: {
+  	url: 'https://google.com',
+    attribute: 'href',
+    event: "click",
+    twitterObject: {
+    	href: 'https://twitter.com',
+      id: 31
+    },
+    number:0,
+    x:0,
+    y:0,
+    message:"hello",
+    counter:0
+  },
+  methods: {
+  	countUp: function(times) {
+    	this.number += 1 * times
+    },
+    displayMousePosition: function(event, wari) {
+    	this.x = event.clientX / wari;
+      this.y = event.clientY; 
+    },
+    myAlert() {
+    	alert('アラーっと。');
+    }
+  },
+  computed: {
+  	//methodは全変更を検知、computedは参照元の変更を検知
+    lessThanThree: function() {
+      return this.counter > 3 ? "☝3より上" : "☝3以下"
+    }
+  },
+  watch: {
+  	//couputedだけではできないときに使うよ
+  	counter: function() {
+			var vm = this;
+      setTimeout(function(){
+      	vm.counter = 0
+      }, 3000)
+    }
+  }
+})
