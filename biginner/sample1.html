@@ -33,9 +33,19 @@
   <p>{{counter}}</p>
   <p>{{lessThanThree}}</p>
   <button @click="counter += 1">+1</button>
+  
+  <!-- classいじるで -->
+  <h1 :class="{ 'red': isActive1, 'bg-blue': !isActive1 }">HTML側で書いたで</h1>
+  <button @click="isActive1 = !isActive1">切り替え</button>
+  
+  <h1 :class="classObject">オブジェクトで書いたで</h1>
+  <button @click="isActive2 = !isActive2">切り替え</button>
 </div>
 
 
+
+
+<script>
 new Vue({
 	el:'#app',
   data: {
@@ -50,7 +60,9 @@ new Vue({
     x:0,
     y:0,
     message:"hello",
-    counter:0
+    counter:0,
+    isActive1: true,
+    isActive2: true
   },
   methods: {
   	countUp: function(times) {
@@ -68,6 +80,12 @@ new Vue({
   	//methodは全変更を検知、computedは参照元の変更を検知
     lessThanThree: function() {
       return this.counter > 3 ? "☝3より上" : "☝3以下"
+    },
+    classObject: function() {
+    	return {
+      	"red": this.isActive2,
+        "bg-blue" :!this.isActive2
+      }
     }
   },
   watch: {
@@ -80,3 +98,14 @@ new Vue({
     }
   }
 })
+</script>
+
+<style>
+  .red {
+    color: red;
+  }
+  
+  .bg-blue {
+    background-color: blue;
+  }
+</style>
