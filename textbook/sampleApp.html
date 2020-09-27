@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<title>Vueのお勉強用アプリだよ</title>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<div id="app">
+    <!-- {{}}どうやらdataで定義した部分を表示しているよん -->
+    <!-- {{}}の中ではJavascriptの演算ができる。けど見通しが悪くなるから注意が必要だよん-->
+    <p>{{items[0].name + ' 価格:' +items[0].price}}(残り{{items[0].quantity}}個)</p>
+    <button id="b-button" v-bind:title='tInput'>title</button>
+    <button id="b-button" v-bind:disabled='!dInput'>disable</button>
+    <!-- カンマ区切るよん  value | filter名 パイプ記法だ( ﾟДﾟ)-->
+    <p>${{ items[1].price | numberDeli }}</p>
+    <p>${{ totalPrice | numberDeli }}(税込${{ totalPriceInTax | numberDeli }})</p>
+    <!-- v-showディレクティブを使ってみよう -->
+    <p v-show="!canBuy">
+        <!-- displayプロパティを操作  t/fで表示が切り替わる -->
+        {{ 5000 | numberDeli }}以上からご購入いただけます
+    </p>
+    <p v-if="!canBuy">
+        <!-- DOMの要素を操作  t/fで表示が切り替わる -->
+        {{ 5000 | numberDeli }}以上からご購入いただけます
+    </p>
+    <!-- classを与えてみよう なんかよくわからん笑-->
+    <p v-bind:class="{error: 'errorMessage'}">
+        5000円以上から買えるぜい( ﾟДﾟ)
+    </p>
+    <p v-bind:style="{color: 'red'}">マジシャンズレッド‼</p>
+</div>
+
+<script>
+    var items = [
+        {
+            name:'KOKUYO鉛筆',
+            price: 75,
+            quantity: 5
+        },
+        {
+            name:'フリクションボールペン',
+            price: 1000,
+            quantity: 5
+        }
+    ]
+
+    var vm = new Vue({
+        el: '#app',
+        data:{
+            // この中に処理を置かない( ｀ー´)ノ
+            // テンプレート内で使うname:適当なデータ
+            items: items,
+            tInput: 'v-bindでtitleをつけたよん',
+            dInput: false//ここで真偽値を入れてやればボタンを触れなくしたりできるよん
+        },
+        filters: {
+            // filtersさんはtextフォーマット処理を担当する型だよん(-_-)/~~~ピシー!ピシー!
+            numberDeli: function(value){
+                if(!value){
+                    return '0'
+                }
+                return value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+            }
+        },
+        computed: {
+            // 算出プロパティを定義するよん(^_-)-☆
+            // テンプレ内で参照するときは関数でなくプロパティだから()つけなくていいよん
+            // thisはvueインスタンスの意味('ω')
+            totalPrice: function() {
+                return this.items.reduce(function (sum, item){
+                    return sum + (item.price * item.quantity)
+                }, 0)
+            },
+            totalPriceInTax: function() {
+                return Math.floor(this.totalPrice * 1.10)
+            },
+            canBuy: function() {
+                return this.totalPrice >= 5000 //5000円以上で購入可能
+            },
+            errorMessage: function() {
+                return {
+                    none: !this.canBuy//5000以上でfalse
+                }
+            }
+        },
+    })
+
+</script>
