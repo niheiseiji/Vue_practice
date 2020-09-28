@@ -1,0 +1,64 @@
+body {
+    font-family: "SF Pro JP", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.product-image {
+    /* background-color: lightblue; */
+}
+
+.product-info {
+    /* background-color: lightgreen; */
+}
+
+img{
+    width: 400px;
+    height: 400px;
+    margin-top: 20px;
+    margin-left: 20px;
+    border: 1.5px solid rgb(206, 206, 206);
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+
+.color-box{
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    border: solid 2px rgb(209, 209, 209);
+}
+
+.stock{
+    color: gray;
+    font-weight: bold;
+}
+
+.stock-count{
+    color: red;
+    font-weight: bold;
+}
+
+.price{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.small{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+@media (min-width: 600px) {
+    #app {
+      display: flex;
+    }
+    .product-image {
+      flex-grow: 1;
+    }
+    .product-info {
+      flex-grow: 1;
+    }
+}

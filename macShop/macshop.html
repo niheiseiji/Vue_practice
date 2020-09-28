@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Vueのお勉強</title>
+</head>
+<body>
+    <div id="app">
+
+        <div class="product-image">
+            <img v-bind:src="image" alt="">
+        </div>
+
+        <div class="product-info">
+            <!-- データバインディングによる出力 -->
+            <h1>{{ product }}</h1>
+            
+            <!-- ディレクティブによる条件分岐 -->
+            <p v-if="inStock" class="stock">在庫あり</p>
+            <p v-else class="stock-count">入荷待ち</p>
+
+            <p class="stock-count">残り{{ inStock }}個</p>
+            
+            <ul>
+                <!-- ディレクティブによる繰り返し -->
+                <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+
+            <!-- 繰り返しの応用（v-bindとv-on） -->
+            <div v-for="variant in variants"
+                class="color-box"
+                v-bind:style="{ backgroundColor: variant.variantColor}"
+                v-on:click="updateProduct(variant.variantImage, variant.variantPrice)"
+            >
+            </div>
+
+            <!-- filtersによ正規化 & computedによる計算 -->
+            <p class="price">{{ price | numberDeli }}円(税別)</p>
+            <p class="small">24回払い{{ installmentPayment | numberDeli  }}円(税込)/月~</p>
+
+            <!-- methodsによるclickAction & ディレクティブの省略記法 -->
+            <button @click="addToCart" :disabled="!inStock">カートに入れる</button>
+
+            <div class="cart">
+                <p class="small">カート({{ cart }})  合計：{{ totalPrice | numberDeli }}円</p>
+            </div>
+
+            <!-- methodとcomputedの違い -->
+            <!-- <h1>{{ sampleMethods() }}</h1>
+            <h1>{{ sampleComputed }}</h1> -->
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
